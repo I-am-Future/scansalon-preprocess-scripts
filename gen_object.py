@@ -171,7 +171,7 @@ def generate(scan2cad_annotation, dataset_root):
 
         mu = best_box[:3]
         sigma = best_box[3:6]
-        scannet_object_pts_transformed = (scannet_object_pts_transformed-mu)/sigma
+        # scannet_object_pts_transformed = (scannet_object_pts_transformed-mu)/sigma
 
         # print(scannet_object_pts_transformed.shape)
         min_pt = scannet_object_pts_transformed.min(axis = 0)
@@ -192,15 +192,3 @@ def generate(scan2cad_annotation, dataset_root):
         # exit()
     return objid_pcd
 
-
-if __name__ == '__main__':
-    with open('scan2cad_download_link/full_annotations.json', 'r') as f:
-        data = json.load(f)
-    for i in range(len(data)):
-        if data[i]['id_scan'] == 'scene0000_00':
-            scan2cad = data[i]
-            break
-    print(scan2cad['id_scan'])
-    ScanNet_Dir = '/data2/yushuang/datasets/ScanNet/scans/'
-
-    generate(scan2cad, ScanNet_Dir)
