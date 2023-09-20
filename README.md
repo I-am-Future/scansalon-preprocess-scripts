@@ -1,8 +1,8 @@
-# README
+# ScanSalon Preprocess Scripts
 
 The [ScanSalon](https://github.com/yushuang-wu/SCoDA) Dataset pre-process scripts (currently only for 5 categories from ScanNet).
 
-The object's point clouds from ScanNet are extracted and normalized by this scripts, and then, they are sent to artists to build corresponding meshes.
+The object's point clouds from ScanNet are extracted and normalized by these scripts, and then, they are sent to artists to build corresponding meshes.
 
 ## Install
 
@@ -13,7 +13,7 @@ There are several trivial packages needed, such as `numpy`, `open3d`, `quaternio
 + `LABELMAP.pkl`, `ALL_SCENES.txt`, `scan2cad_download_link`, `scannet` (from [here](https://github.com/GAP-LAB-CUHK-SZ/RfDNet/tree/main/utils/scannet)) are metadata.
 + `config.py` stores configurations for exporting point clouds and meshes.
 + `main_process.py` is the main scripts, with `main_process_mp.py` adds multiprocessing support. 
-+ Other remaining files are utility tools in exporting. 
++ Other remaining files are utility tools for exporting. 
 
 ## Basic Program Workflow
 
@@ -26,7 +26,7 @@ Majorly in `gen_object.py`.
 5. Finally, we normalize it so that maximum-spanned axis are in range `[-0.5, 0.5]`.
 6. Export some auxiliary images and instance map as well, which helps artists to create the model.
 
-You can refer to this script to implement code that can convert our ScanSalon data back to the original ScanNet coordinate. 
+You can refer to this script to implement code that can transform our ScanSalon data back to the original ScanNet coordinate. 
 
 ## Running
 
