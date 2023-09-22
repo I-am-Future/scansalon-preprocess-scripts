@@ -27,11 +27,43 @@ verbose_critical = True   # stdout critical info
 
 ## working-on objects
 
-# desk's scan2cad category id. If the category id is not this, skip it directly
-# so we can speed up the process. (Used in gen_object.py).
-CATID_scan2cad = '04379243'
+work_category = 'desk'
 
-# desk's scannet categoty name. If the segment's category name in this, do it 
-# so we are dealing with desk. (Used in main_process.py).
-CATNAME_scannet = ['desk', 'table', 'nightstand']
+if work_category == 'desk':
+    # scan2cad category id. If the category id is not this, skip it directly
+    # so we can speed up the process. (Used in gen_object.py).
+    CATID_scan2cad = '04379243'
 
+    # scannet categoty name. If the segment's category name in this, do it 
+    # so we are dealing with desk. (Used in main_process.py).
+    CATNAME_scannet = ['desk', 'table', 'nightstand']
+
+    ## shapenet category id. If the category id is not this, skip it directly
+    CLSID_shapenet = 1
+
+elif work_category == 'chair':
+
+    CATID_scan2cad = '03001627'
+    CATNAME_scannet = ['chair', 'office chair', 'armchair', 'sofa chair', 'stack of chairs', 'folded chair', 'beanbag chair', 'folded chairs', 'massage chair', 'recliner chair', 'rocking chair', 'stack of folded chairs', 'stool', 'couch']
+    CLSID_shapenet = 7
+
+elif work_category == 'sofa':
+
+    CATID_scan2cad = '04256520'
+    CATNAME_scannet = ['couch', 'sofa']
+    CLSID_shapenet = 13
+
+elif work_category == 'lamp':
+
+    CATID_scan2cad = '03636649'
+    CATNAME_scannet = ['lamp', 'lamp base', 'desk lamp', 'wall lamp', 'table lamp', 'ceiling lamp', 'night lamp']
+    CLSID_shapenet = 19
+
+elif work_category == 'bed':
+
+    CATID_scan2cad = '02818832'
+    CATNAME_scannet = ['bed', 'mattress', 'loft bed', 'sofa bed', 'bunk bed', 'air mattress']
+    CLSID_shapenet = 32
+
+else:
+    raise NotImplementedError
