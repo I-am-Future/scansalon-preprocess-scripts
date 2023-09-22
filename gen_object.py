@@ -13,7 +13,7 @@ from tools import get_iou_cuboid
 from tools import get_box_corners
 import pickle
 from plyfile import PlyData,PlyElement
-from config import ShapeNet_Dir, CATID_scan2cad
+from config import ShapeNet_Dir, CATID_scan2cad, CLSID_shapenet
 
 SHAPENETCLASSES = ['void',
                    'table', 'jar', 'skateboard', 'car', 'bottle',
@@ -79,7 +79,7 @@ def generate(scan2cad_annotation, dataset_root):
         # read corresponding shapenet scanned points
         catid_cad = model["catid_cad"]
         cls_id = SHAPENETCLASSES.index(ShapeNetIDMap[catid_cad[1:]])
-        if cls_id != 1 or catid_cad != CATID_scan2cad:
+        if cls_id != CLSID_shapenet or catid_cad != CATID_scan2cad:
             continue
         id_cad = model["id_cad"]
         obj_path = os.path.join(ShapeNet_Dir, catid_cad, id_cad + '/models/model_normalized.obj')
@@ -169,26 +169,21 @@ def generate(scan2cad_annotation, dataset_root):
         #                           [ 0           , 0            , 1 ]])
         # scannet_object_pts_transformed = scannet_object_pts_transformed.dot(angle_matrix.T)
 
-        mu = best_box[:3]
-        sigma = best_box[3:6]
+        # We don't need these lines. These lines result to abnormal object shapes.
+        # mu = best_box[:3]
+        # sigma = best_box[3:6]
         # scannet_object_pts_transformed = (scannet_object_pts_transformed-mu)/sigma
 
         # print(scannet_object_pts_transformed.shape)
         min_pt = scannet_object_pts_transformed.min(axis = 0)
         max_pt = scannet_object_pts_transformed.max(axis = 0)
-        # min_pt = np.array(min_pt).squeeze(0)
-        # max_pt = np.array(max_pt).squeeze(0)
 
         scale = max_pt - min_pt
         largest_index = np.argmax(scale)
-        # scannet_object_pts_transformed[:, 0] = (scannet_object_pts_transformed[:, 0] - min_pt[0]) / (max_pt[0] - min_pt[0])
-        # scannet_object_pts_transformed[:, 1] = (scannet_object_pts_transformed[:, 1] - min_pt[1]) / (max_pt[1] - min_pt[1])
-        # scannet_object_pts_transformed[:, 2] = (scannet_object_pts_transformed[:, 2] - min_pt[2]) / (max_pt[2] - min_pt[2])
         scannet_object_pts_transformed[:, 0] = (scannet_object_pts_transformed[:, 0] - (max_pt[0] + min_pt[0]) / 2) / scale[largest_index]
         scannet_object_pts_transformed[:, 1] = (scannet_object_pts_transformed[:, 1] - (max_pt[1] + min_pt[1]) / 2) / scale[largest_index]
         scannet_object_pts_transformed[:, 2] = (scannet_object_pts_transformed[:, 2] - (max_pt[2] + min_pt[2]) / 2) / scale[largest_index]
         objid_pcd[best_instance_id-1] = scannet_object_pts_transformed
         
-        # exit()
     return objid_pcd
 

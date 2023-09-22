@@ -1,3 +1,7 @@
 LOGGING*
 __pycache__/
-local_path.txt
+*.txt
+
+
+check_normalize.py 
+copy_file.py
